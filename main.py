@@ -1,6 +1,7 @@
 import pkg_resources
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
 from starlette.responses import RedirectResponse, JSONResponse
 from routers import (
@@ -10,6 +11,19 @@ from routers import (
 )
 
 app = FastAPI()
+
+origins = [
+    "*",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(auth.router)
 app.include_router(media.router)
 app.include_router(video.router)
